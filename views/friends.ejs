@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width">
+	  <title>Connections</title>
+	  <link rel="stylesheet" href="stylesheets/foundation.css">
+	  <script src="javascripts/vendor/custom.modernizr.js"></script>
+	</head>
+  <body>
+  	<div class="row">
+  		<div class="small-12 columns small-centered" style="text-align: center">
+  			<h2>Your Connections:</h2>
+  		</div>
+  	</div>
+
+  	<% for(var i in sorted_locations) { %>
+			<div class="row" style="padding: 5px; border: 1px solid #ffffff; color:#ffffff; background-color: <%= getRandomColor() %>">
+				<div class="small-2 columns" style="white-space: nowrap; padding-top:6px;">
+					<%= sorted_locations[i].location %>:
+				</div>
+				<div class="small-10 columns" style="width: 400px">
+					<% for(var j in location_to_friend_map[sorted_locations[i].location]) { %>
+						<% if(j > 10){break;} %>
+						<img src ="<%= location_to_friend_map[sorted_locations[i].location][j] %>" width="30" style="border: solid 1px lightblue" />
+					<% } %>
+				</div>
+			</div>
+		<% } %>
+<!--
+			<% for(var i in friend_ids) { %>
+				<% if(friend_locations[i]) { %>
+				<div>
+					<%= friend_names[i] %>:
+					<%= friend_locations[i].city %>, <%= friend_locations[i].state %>
+					(<%= friend_locations[i].name %>)
+					<%= friend_locations[i].latitude %>, <%= friend_locations[i].longitude %>
+				</div>
+				<% } else { %>
+					<div><%= friend_names[i] %></div>
+				<% } %>
+			<% } %>
+		-->
+  </body>
+</html>
