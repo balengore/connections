@@ -56,14 +56,14 @@ exports.friends = function(req, res){
 		}).reverse().slice(0, 10);
 		console.log(sorted_locations);
 
-		// var hipmunk = require('./hipmunk');
-		// for(var loc in sorted_locations) {
-		// 	console.log(sorted_locations[loc]);
-		// 	req.params.hipmunk_start_location = "SFO"
-		// 	req.params.hipmunk_query_location = sorted_locations[loc].location;
-		// 	req.params.hipmunk_date_range = "Nov22.Nov24";
-		// 	hipmunk.search(req, res, function(){});
-		// }
+		var hipmunk = require('./hipmunk');
+		for(var loc in sorted_locations) {
+			console.log(sorted_locations[loc]);
+			req.params.hipmunk_start_location = "SFO"
+			req.params.hipmunk_query_location = sorted_locations[loc].location;
+			req.params.hipmunk_date_range = "Nov22.Nov24";
+			hipmunk.search(req, res, function(){});
+		}
 
 		// console.log(friend_ids);
 		// console.log(friend_names);

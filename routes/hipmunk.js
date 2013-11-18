@@ -39,7 +39,7 @@ module.exports.search = function(req, res, next){
 	  var post_data = {"i": search, "revision": revision};
 
 	  rest.post(url, {headers: options, data: post_data}).on('complete', function(data) {
-	    console.log(data);
+	    // console.log(data);
 	    var json_data = JSON.parse(data);
 	    var itins = json_data.itins;
 	    var routings = json_data.routings
