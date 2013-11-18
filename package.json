@@ -8,6 +8,10 @@
   "dependencies": {
     "express": "3.4.4",
     "ejs": "*",
-    "less-middleware": "*"
+    "less-middleware": "*",
+    "facebook-node-sdk": "*",
+    "restler": "*",
+    "cheerio": "*",
+    "firebase": "*"
   }
 }
