@@ -9,10 +9,14 @@ var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 var facebook = require('facebook-node-sdk');
-var scope = "user_location,friends_location,friends_birthday";
 var rest = require("restler");
 var cheerio = require("cheerio");
 var firebase = require('firebase');
+
+var hipmunk = require('./routes/hipmunk');
+var scope = "user_location,friends_location,friends_birthday";
+
+
 var app = express();
 
 // all environments
@@ -50,7 +54,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/friends', facebook.loginRequired({scope: scope}), routes.friends);
-app.get('/flights/:hipmunk_query', routes.flights);
+app.get('/flights/:hipmunk_query', hipmunk.search, routes.flights);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

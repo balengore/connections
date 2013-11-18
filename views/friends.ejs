@@ -4,42 +4,72 @@
 		<meta charset="utf-8">
 	  <meta name="viewport" content="width=device-width">
 	  <title>Connections</title>
-	  <link rel="stylesheet" href="stylesheets/foundation.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+		<script src="https://cdn.firebase.com/v0/firebase.js"></script>
+		<script src="https://cdn.firebase.com/libs/angularfire/0.3.0/angularfire.min.js"></script>
 	  <script src="javascripts/vendor/custom.modernizr.js"></script>
-	</head>
-  <body>
-  	<div class="row">
-  		<div class="small-12 columns small-centered" style="text-align: center">
-  			<h2>Your Connections:</h2>
-  		</div>
-  	</div>
+	  <link rel="stylesheet" href="stylesheets/foundation.css">
 
-  	<% for(var i in sorted_locations) { %>
-			<div class="row" style="padding: 5px; border: 1px solid #ffffff; color:#ffffff; background-color: <%= getRandomColor() %>; border-radius:5px">
-				<div class="small-2 columns" style="white-space: nowrap; padding-top:6px;">
-					<%= sorted_locations[i].location %>:
+	</head>
+	<body ng-app="MyApp">
+		<div ng-controller="MyController" ng-cloak>
+			<div class="row">
+	  		<div class="small-12 columns small-centered" style="text-align: center">
+	  			<h2>Your Connections:</h2>
+	  		</div>
+	  	</div>
+
+	  	<% for(var i in sorted_locations) { %>
+				<div class="row" style="padding: 5px; border: 1px solid #ffffff; color:#ffffff; background-color: <%= getRandomColor() %>; border-radius:5px">
+					<div class="small-3 columns" style="white-space: nowrap; padding-top:6px;">
+						<%= sorted_locations[i].location %>:
+					</div>
+					<div class="small-1 columns" style="padding-top:6px;">
+						<span style="font-weight: bold">
+							${{flights['<%= sorted_locations[i].location %>'].price}}
+						</span>
+					</div>
+					<div class="small-8 columns" style="width: 400px">
+						<% for(var j in location_to_friend_map[sorted_locations[i].location]) { %>
+							<% if(j > 10){break;} %>
+							<img src ="<%= location_to_friend_map[sorted_locations[i].location][j] %>" width="30" style="border: solid 1px lightblue" />
+						<% } %>
+					</div>
 				</div>
-				<div class="small-10 columns" style="width: 400px">
-					<% for(var j in location_to_friend_map[sorted_locations[i].location]) { %>
-						<% if(j > 10){break;} %>
-						<img src ="<%= location_to_friend_map[sorted_locations[i].location][j] %>" width="30" style="border: solid 1px lightblue" />
-					<% } %>
-				</div>
-			</div>
-		<% } %>
-<!--
-			<% for(var i in friend_ids) { %>
-				<% if(friend_locations[i]) { %>
-				<div>
-					<%= friend_names[i] %>:
-					<%= friend_locations[i].city %>, <%= friend_locations[i].state %>
-					(<%= friend_locations[i].name %>)
-					<%= friend_locations[i].latitude %>, <%= friend_locations[i].longitude %>
-				</div>
-				<% } else { %>
-					<div><%= friend_names[i] %></div>
-				<% } %>
 			<% } %>
-		-->
+	<!--
+				<% for(var i in friend_ids) { %>
+					<% if(friend_locations[i]) { %>
+					<div>
+						<%= friend_names[i] %>:
+						<%= friend_locations[i].city %>, <%= friend_locations[i].state %>
+						(<%= friend_locations[i].name %>)
+						<%= friend_locations[i].latitude %>, <%= friend_locations[i].longitude %>
+					</div>
+					<% } else { %>
+						<div><%= friend_names[i] %></div>
+					<% } %>
+				<% } %>
+			-->
+
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		  <script src="https://cdn.jsdelivr.net/foundation/4.3.2/js/foundation.min.js"></script>
+
+			<script>
+				var myApp = angular.module("MyApp", ["firebase"], function($locationProvider) {
+		      $locationProvider.html5Mode(true);
+		    });
+				function MyController($scope, $location, angularFire) {
+					var date = new Date();
+					var day_id = (date.getMonth()+1) + "" + (date.getDate()-1) + "" + date.getFullYear();
+					//TODO pass users location in here
+				  var ref = new Firebase("https://connections.firebaseio.com/flights/SFO/");
+				  angularFire(ref, $scope, "flights");
+				}
+			</script>
+			<script>
+		    $(document).foundation();
+		  </script>
+		</div>
   </body>
 </html>
